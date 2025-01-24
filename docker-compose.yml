@@ -18,6 +18,9 @@ services:
 
     ports:
       - "$LOCAL_PORT:$DOCKER_EXIT_PORT"
+
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   database:
     image: postgres
     container_name: database
@@ -26,4 +29,4 @@ services:
       - POSTGRES_PASSWORD=$PASSWORD
       - POSTGRES_DB=$DB_NAME
     ports:
-      - "$LOCAL_PORT:$DOCKER_EXIT_PORT"
+      - "$DB_PORT:$DB_PORT"
