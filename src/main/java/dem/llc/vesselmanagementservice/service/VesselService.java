@@ -8,6 +8,9 @@ import dem.llc.vesselmanagementservice.repository.VesselRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class VesselService {
     @Autowired
@@ -26,5 +29,10 @@ public class VesselService {
         Vessel createdVessel = vesselRepository.save(vessel);
 
         return createdVessel.toDto();
+    }
+
+    public VesselDto getVesselById(UUID vesselId) {
+        Optional<Vessel> foundVessel = vesselRepository.findById(vesselId);
+        return (foundVessel.isEmpty())? null : foundVessel.get().toDto();
     }
 }

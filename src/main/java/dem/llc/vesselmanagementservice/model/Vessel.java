@@ -26,6 +26,6 @@ public class Vessel {
     }
 
     public VesselDto toDto() {
-        return new VesselDto(id.toString(), type, color);
+        return new VesselDto(id, type, color);
     }
 }

@@ -5,9 +5,10 @@ import dem.llc.vesselmanagementservice.dto.VesselDto;
 import dem.llc.vesselmanagementservice.service.VesselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/vessel")
@@ -24,10 +25,12 @@ public class VesselController {
     @PostMapping("/create")
     ResponseEntity<VesselDto> createVessel(@RequestBody CreateVesselRequestDto requestDto) {
         VesselDto createdVesselDto = vesselService.createVessel(requestDto);
-        if (createdVesselDto == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-
-        return ResponseEntity.ok(createdVesselDto);
+        return (createdVesselDto == null)?ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null): ResponseEntity.ok(createdVesselDto);
     }
 
+    @GetMapping("/byId")
+    ResponseEntity<VesselDto> getVesselById(@RequestParam UUID vesselId) {
+        VesselDto foundVesselDto = vesselService.getVesselById(vesselId);
+        return (foundVesselDto == null)?ResponseEntity.status(HttpStatus.NOT_FOUND).body(null): ResponseEntity.ok(foundVesselDto);
+    }
 }

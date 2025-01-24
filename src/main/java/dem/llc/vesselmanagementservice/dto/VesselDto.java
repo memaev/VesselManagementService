@@ -1,7 +1,9 @@
 package dem.llc.vesselmanagementservice.dto;
 
+import java.util.UUID;
+
 public record VesselDto(
-        String id,
+        UUID id,
         String type,
         String color
 ) {}
