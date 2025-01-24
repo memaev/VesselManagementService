@@ -1,0 +1,29 @@
+version:  '3.8'
+
+services:
+  service:
+    image: 'vessel-management-service:latest'
+    build:
+      context: .
+    container_name: service
+    depends_on:
+      - database
+    environment:
+      - POSTGRES_USER=$USERNAME
+      - POSTGRES_PASSWORD=$PASSWORD
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:$DB_PORT/$DB_NAME
+      - SPRING_DATASOURCE_USERNAME=$USERNAME
+      - SPRING_DATASOURCE_PASSWORD=$PASSWORD
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+    ports:
+      - "$LOCAL_PORT:$DOCKER_EXIT_PORT"
+  database:
+    image: postgres
+    container_name: database
+    environment:
+      - POSTGRES_USER=$USERNAME
+      - POSTGRES_PASSWORD=$PASSWORD
+      - POSTGRES_DB=$DB_NAME
+    ports:
+      - "$LOCAL_PORT:$DOCKER_EXIT_PORT"
