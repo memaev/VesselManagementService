@@ -1,5 +1,6 @@
 package dem.llc.vesselmanagementservice.model;
 
+import dem.llc.vesselmanagementservice.dto.VesselDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "vessel")
 @NoArgsConstructor
-public class VesselF {
+public class Vessel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -18,4 +19,13 @@ public class VesselF {
 
     @Column(name = "color")
     private String color;
+
+    public Vessel(String type, String color) {
+        this.type = type;
+        this.color = color;
+    }
+
+    public VesselDto toDto() {
+        return new VesselDto(id.toString(), type, color);
+    }
 }
