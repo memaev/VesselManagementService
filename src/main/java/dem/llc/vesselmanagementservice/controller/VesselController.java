@@ -15,8 +15,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/vessels")
 public class VesselController {
 
-    @Autowired
-    private VesselService vesselService;
+    private final VesselService vesselService;
+
+    public VesselController(@Autowired VesselService vesselService) {
+        this.vesselService = vesselService;
+    }
 
     @GetMapping("/test")
     String getTest() {

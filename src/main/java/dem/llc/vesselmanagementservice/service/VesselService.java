@@ -14,8 +14,12 @@ import java.util.UUID;
 
 @Service
 public class VesselService {
-    @Autowired
-    private VesselRepository vesselRepository;
+
+    private final VesselRepository vesselRepository;
+
+    public VesselService(@Autowired VesselRepository vesselRepository) {
+        this.vesselRepository = vesselRepository;
+    }
 
     public VesselDto createVessel(CreateVesselRequestDto requestDto) {
         // input values cannot be empty
