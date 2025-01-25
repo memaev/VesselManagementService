@@ -2,13 +2,11 @@ package dem.llc.vesselmanagementservice.model;
 
 import dem.llc.vesselmanagementservice.dto.VesselDto;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "vessel")
-@NoArgsConstructor
 public class Vessel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,6 +22,8 @@ public class Vessel {
         this.type = type;
         this.color = color;
     }
+
+    public Vessel() {}
 
     public VesselDto toDto() {
         return new VesselDto(id, type, color);

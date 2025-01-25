@@ -18,17 +18,19 @@ repositories {
 }
 
 dependencies {
+    // work with database
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
     runtimeOnly("org.postgresql:postgresql")
 
-    implementation("org.projectlombok:lombok:1.18.36")
-    annotationProcessor("org.projectlombok:lombok:1.18.36")
-    testImplementation("org.projectlombok:lombok:1.18.36")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
+    // adding beans for rest controllers
+    implementation("org.springframework.boot:spring-boot-starter-web")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // swagger library for docs
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
+    // adding test implementations
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
