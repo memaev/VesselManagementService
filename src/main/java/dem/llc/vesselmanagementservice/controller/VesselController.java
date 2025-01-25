@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,5 +33,10 @@ public class VesselController {
     ResponseEntity<VesselDto> getVesselById(@RequestParam UUID vesselId) {
         VesselDto foundVesselDto = vesselService.getVesselById(vesselId);
         return (foundVesselDto == null)?ResponseEntity.status(HttpStatus.NOT_FOUND).body(null): ResponseEntity.ok(foundVesselDto);
+    }
+
+    @GetMapping("/byColor")
+    List<VesselDto> getVesselsByColor(@RequestParam String color) {
+        return vesselService.getVesselsByColor(color);
     }
 }

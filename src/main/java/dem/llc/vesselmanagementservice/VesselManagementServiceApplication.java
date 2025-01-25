@@ -1,6 +1,5 @@
 package dem.llc.vesselmanagementservice;
 
-import dem.llc.vesselmanagementservice.dto.VesselDto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

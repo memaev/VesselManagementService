@@ -8,6 +8,7 @@ import dem.llc.vesselmanagementservice.repository.VesselRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +34,10 @@ public class VesselService {
 
     public VesselDto getVesselById(UUID vesselId) {
         Optional<Vessel> foundVessel = vesselRepository.findById(vesselId);
-        return (foundVessel.isEmpty())? null : foundVessel.get().toDto();
+        return foundVessel.map(Vessel::toDto).orElse(null);
+    }
+
+    public List<VesselDto> getVesselsByColor(String color) {
+        return vesselRepository.findAllByColor(color).stream().map(Vessel::toDto).toList();
     }
 }
