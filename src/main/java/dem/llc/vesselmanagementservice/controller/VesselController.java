@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/vessel")
+@RequestMapping("/api/v1/vessels")
 public class VesselController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class VesselController {
         return "This is test";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     ResponseEntity<VesselDto> createVessel(@RequestBody CreateVesselRequestDto requestDto) {
         VesselDto createdVesselDto = vesselService.createVessel(requestDto);
         return (createdVesselDto == null)?ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null): ResponseEntity.ok(createdVesselDto);
@@ -39,4 +39,5 @@ public class VesselController {
     List<VesselDto> getVesselsByColor(@RequestParam String color) {
         return vesselService.getVesselsByColor(color);
     }
+
 }

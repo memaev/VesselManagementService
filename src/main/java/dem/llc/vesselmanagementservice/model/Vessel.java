@@ -18,6 +18,12 @@ public class Vessel {
     @Column(name = "color")
     private String color;
 
+    public Vessel(UUID id, String type, String color) {
+        this.id = id;
+        this.type = type;
+        this.color = color;
+    }
+
     public Vessel(String type, String color) {
         this.type = type;
         this.color = color;
@@ -27,5 +33,9 @@ public class Vessel {
 
     public VesselDto toDto() {
         return new VesselDto(id, type, color);
+    }
+
+    public UUID getId() {
+        return this.id;
     }
 }
