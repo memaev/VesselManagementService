@@ -32,6 +32,15 @@ public class VesselService {
         return createdVessel.toDto();
     }
 
+    public VesselDto updateVessel(VesselDto updatedVesselDto) {
+        Optional<Vessel> existedVessel = vesselRepository.findById(updatedVesselDto.id());
+        if (existedVessel.isEmpty())
+            return null;
+
+        vesselRepository.save(updatedVesselDto.toModel());
+        return updatedVesselDto;
+    }
+
     public VesselDto getVesselById(UUID vesselId) {
         Optional<Vessel> foundVessel = vesselRepository.findById(vesselId);
         return foundVessel.map(Vessel::toDto).orElse(null);

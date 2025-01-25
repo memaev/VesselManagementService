@@ -77,7 +77,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessel/byColor?color=Black")
+                .get("api/v1/vessels/byColor?color=Black")
                 .then()
                 .statusCode(200)
                 .body(".", hasSize(4));
@@ -89,7 +89,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessel/byColor?color=Red")
+                .get("api/v1/vessels/byColor?color=Red")
                 .then()
                 .statusCode(200)
                 .body(".", hasSize(1));
@@ -103,7 +103,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessel/byId?vesselId=" + vessel.getId().toString())
+                .get("api/v1/vessels/byId?vesselId=" + vessel.getId().toString())
                 .then()
                 .statusCode(200);
     }
@@ -117,7 +117,7 @@ class VesselManagementControllerTest {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestDto)
-                .post("api/v1/vessel")
+                .post("api/v1/vessels")
                 .then()
                 .statusCode(200);
     }
@@ -131,7 +131,7 @@ class VesselManagementControllerTest {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestDto)
-                .post("api/v1/vessel")
+                .post("api/v1/vessels")
                 .then()
                 .statusCode(400);
     }
@@ -145,7 +145,7 @@ class VesselManagementControllerTest {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(requestDto)
-                .post("api/v1/vessel")
+                .post("api/v1/vessels")
                 .then()
                 .statusCode(400);
     }

@@ -29,6 +29,15 @@ public class VesselController {
         return (createdVesselDto == null)?ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null): ResponseEntity.ok(createdVesselDto);
     }
 
+    @PutMapping
+    ResponseEntity<VesselDto> updateVessel(@RequestBody VesselDto updatedVesselDto) {
+        VesselDto result = vesselService.updateVessel(updatedVesselDto);
+        if (result == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/byId")
     ResponseEntity<VesselDto> getVesselById(@RequestParam UUID vesselId) {
         VesselDto foundVesselDto = vesselService.getVesselById(vesselId);
