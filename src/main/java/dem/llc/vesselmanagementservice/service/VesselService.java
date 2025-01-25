@@ -53,4 +53,8 @@ public class VesselService {
     public List<VesselDto> getVesselsByColor(String color) {
         return vesselRepository.findAllByColor(color).stream().map(Vessel::toDto).toList();
     }
+
+    public List<VesselDto> getAllVessels() {
+        return vesselRepository.findAll().stream().map(Vessel::toDto).toList();
+    }
 }

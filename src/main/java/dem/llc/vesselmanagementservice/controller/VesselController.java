@@ -21,9 +21,9 @@ public class VesselController {
         this.vesselService = vesselService;
     }
 
-    @GetMapping("/test")
-    String getTest() {
-        return "This is test";
+    @GetMapping("/all")
+    List<VesselDto> getAllVessels() {
+        return vesselService.getAllVessels();
     }
 
     @PostMapping
@@ -47,6 +47,7 @@ public class VesselController {
         return (foundVesselDto == null)?ResponseEntity.status(HttpStatus.NOT_FOUND).body(null): ResponseEntity.ok(foundVesselDto);
     }
 
+    // no need to return with ResponseEntity wrapper because there is no option to throw error code
     @GetMapping("/byColor")
     List<VesselDto> getVesselsByColor(@RequestParam String color) {
         return vesselService.getVesselsByColor(color);

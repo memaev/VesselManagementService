@@ -72,6 +72,18 @@ class VesselManagementControllerTest {
     }
 
     @Test
+    @DisplayName("Should get all 7 vessels")
+    void shouldGetAllVessels() {
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("api/v1/vessels/all")
+                .then()
+                .statusCode(200)
+                .body(".", hasSize(7));
+    }
+
+    @Test
     @DisplayName("Should get all vessels with Black color. There are 4 of them")
     void shouldGetVesselsByColor() {
         given()
