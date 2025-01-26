@@ -46,7 +46,7 @@ public class VesselController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVessel(@PathVariable UUID id) {
+    void deleteVessel(@PathVariable UUID id) {
         boolean deletionResult = vesselService.deleteById(id);
         if (!deletionResult) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vessel not found");
