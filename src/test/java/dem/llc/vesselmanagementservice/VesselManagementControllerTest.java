@@ -5,6 +5,7 @@ import dem.llc.vesselmanagementservice.model.Vessel;
 import dem.llc.vesselmanagementservice.repository.VesselRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -161,4 +162,41 @@ class VesselManagementControllerTest {
                 .then()
                 .statusCode(400);
     }
+
+    @Test
+    @DisplayName("Should save new vessel in database, update it, and verify the changes")
+    void shouldSaveNewVesselAndUpdateIt() {
+        Vessel vessel = vesselRepository.save(new Vessel("Military", "Green"));
+
+        Vessel updatedVessel = new Vessel(vessel.getId(), "Cruise", "Blue");
+        given()
+                .contentType(ContentType.JSON)
+                .body(updatedVessel)
+                .when()
+                .put("api/v1/vessels")
+                .then()
+                .statusCode(200);
+
+        Vessel retrievedVessel = vesselRepository.findById(vessel.getId())
+                .orElseThrow(() -> new AssertionError("Vessel not found"));
+
+        Assertions.assertEquals(retrievedVessel.getType(),"Cruise","Vessel type should be updated to 'Cruise'");
+        Assertions.assertEquals(retrievedVessel.getColor(), "Blue", "Vessel color should be updated to 'Blue'");
+    }
+
+    @Test
+    @DisplayName("Should save new vessel in database and fail updating it because of invalid vessel type")
+    void shouldSaveNewVesselAndFailUpdatingIt() {
+        Vessel vessel = vesselRepository.save(new Vessel("Military", "Green"));
+
+        Vessel updatedVessel = new Vessel(vessel.getId(), "israeli", "Blue");
+        given()
+                .contentType(ContentType.JSON)
+                .body(updatedVessel)
+                .when()
+                .put("api/v1/vessels")
+                .then()
+                .statusCode(400);
+    }
+
 }

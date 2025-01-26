@@ -28,12 +28,18 @@ public class VesselController {
 
     @PostMapping
     ResponseEntity<VesselDto> createVessel(@RequestBody CreateVesselRequestDto requestDto) {
+        if (!requestDto.isValid())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
         VesselDto createdVesselDto = vesselService.createVessel(requestDto);
         return (createdVesselDto == null)?ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null): ResponseEntity.ok(createdVesselDto);
     }
 
     @PutMapping
     ResponseEntity<VesselDto> updateVessel(@RequestBody VesselDto updatedVesselDto) {
+        if (!updatedVesselDto.isValid())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
         VesselDto result = vesselService.updateVessel(updatedVesselDto);
         if (result == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

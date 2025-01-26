@@ -26,10 +26,6 @@ public class VesselService {
         if (requestDto.type().isEmpty() || requestDto.color().isEmpty())
             return null;
 
-        // checking if vessel type is valid
-        if (!VesselType.types.contains(requestDto.type()))
-            return null;
-
         Vessel vessel = new Vessel(requestDto.type(), requestDto.color());
         Vessel createdVessel = vesselRepository.save(vessel);
 
@@ -38,11 +34,12 @@ public class VesselService {
 
     public VesselDto updateVessel(VesselDto updatedVesselDto) {
         Optional<Vessel> existedVessel = vesselRepository.findById(updatedVesselDto.id());
+        // if there was no vessel with this id in the database
         if (existedVessel.isEmpty())
             return null;
 
-        vesselRepository.save(updatedVesselDto.toModel());
-        return updatedVesselDto;
+        Vessel updatedVessel = vesselRepository.save(updatedVesselDto.toModel());
+        return updatedVessel.toDto();
     }
 
     public VesselDto getVesselById(UUID vesselId) {
