@@ -62,4 +62,4 @@ To build and run the Vessel Management Service perform the following stages:
 - docker-compose.yml - Docker Compose configuration file to run containers and set up them.
 - Dockerfile - Docker image build configuration file 
 - init.sql - Database schema initializer file
-- Bash script file for rebuilding project and deploying to Docker Compose
+- runProject.sh - Bash script file for rebuilding project and deploying to Docker Compose
