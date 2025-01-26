@@ -22,6 +22,13 @@ This API was created to optimize the process of vessel management, including cre
 To build and run the Vessel Management Service perform the following stages:
   - Make sure that Java, Docker Engine and Docker Compose are installed on your machine.
   - Make sure that Docker Engine is running.
+  - Add .env file in the root folder of the project with the following fields:
+    - USERNAME = 
+    - PASSWORD = 
+    - DB_PORT = 
+    - DB_NAME = 
+    - LOCAL_PORT = 
+    - DOCKER_EXIT_PORT = 
   - Enter the root folder of the project and run the file named "runProject.sh".
   - Wait for the project to build and run in docker composed containers (for backend app and database).
   - Enter [Swagger Generated Docs](http://localhost:8080/swagger-ui/index.html) to see endpoints spec.
