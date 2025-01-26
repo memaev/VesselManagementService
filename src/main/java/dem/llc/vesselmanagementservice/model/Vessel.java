@@ -42,4 +42,12 @@ public class Vessel {
     public String getType() { return this.type; }
 
     public String getColor() { return this.color; }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

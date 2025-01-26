@@ -1,6 +1,6 @@
 # Use an official OpenJDK 17 runtime as a base image
-FROM openjdk:17-jdk-slim
+FROM openjdk:21
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
-EXPOSE 8082
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]

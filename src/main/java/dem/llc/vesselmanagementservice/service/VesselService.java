@@ -1,6 +1,7 @@
 package dem.llc.vesselmanagementservice.service;
 
 import dem.llc.vesselmanagementservice.dto.CreateVesselRequestDto;
+import dem.llc.vesselmanagementservice.dto.UpdateVesselRequestDto;
 import dem.llc.vesselmanagementservice.dto.VesselDto;
 import dem.llc.vesselmanagementservice.model.Vessel;
 import dem.llc.vesselmanagementservice.model.VesselType;
@@ -32,14 +33,26 @@ public class VesselService {
         return createdVessel.toDto();
     }
 
-    public VesselDto updateVessel(VesselDto updatedVesselDto) {
-        Optional<Vessel> existedVessel = vesselRepository.findById(updatedVesselDto.id());
+    public VesselDto updateVessel(UUID id, UpdateVesselRequestDto updateRequestDto) {
+        Optional<Vessel> existedVessel = vesselRepository.findById(id);
         // if there was no vessel with this id in the database
         if (existedVessel.isEmpty())
             return null;
 
-        Vessel updatedVessel = vesselRepository.save(updatedVesselDto.toModel());
+        Vessel updatedVessel = existedVessel.get();
+        updatedVessel.setType(updateRequestDto.type());
+        updatedVessel.setColor(updateRequestDto.color());
+        vesselRepository.save(updatedVessel);
+
         return updatedVessel.toDto();
+    }
+
+    public boolean deleteById(UUID id) {
+        if (!vesselRepository.existsById(id))
+            return false;
+
+        vesselRepository.deleteById(id);
+        return true;
     }
 
     public VesselDto getVesselById(UUID vesselId) {

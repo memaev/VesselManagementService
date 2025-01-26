@@ -13,8 +13,4 @@ public record VesselDto(
     public Vessel toModel() {
         return new Vessel(id, type, color);
     }
-
-    public boolean isValid() {
-        return VesselType.types.contains(this.type()) && !this.type().isEmpty() && !this.color().isEmpty();
-    }
 }

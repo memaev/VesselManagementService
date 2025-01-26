@@ -1,6 +1,7 @@
 package dem.llc.vesselmanagementservice;
 
 import dem.llc.vesselmanagementservice.dto.CreateVesselRequestDto;
+import dem.llc.vesselmanagementservice.dto.UpdateVesselRequestDto;
 import dem.llc.vesselmanagementservice.model.Vessel;
 import dem.llc.vesselmanagementservice.repository.VesselRepository;
 import io.restassured.RestAssured;
@@ -21,6 +22,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -78,7 +80,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessels/all")
+                .get("api/v1/vessels")
                 .then()
                 .statusCode(200)
                 .body(".", hasSize(7));
@@ -90,7 +92,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessels/byColor?color=Black")
+                .get("api/v1/vessels?color=Black")
                 .then()
                 .statusCode(200)
                 .body(".", hasSize(4));
@@ -102,7 +104,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessels/byColor?color=Red")
+                .get("api/v1/vessels?color=Red")
                 .then()
                 .statusCode(200)
                 .body(".", hasSize(1));
@@ -116,7 +118,7 @@ class VesselManagementControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("api/v1/vessels/byId?vesselId=" + vessel.getId().toString())
+                .get("api/v1/vessels/" + vessel.getId().toString())
                 .then()
                 .statusCode(200);
     }
@@ -132,7 +134,7 @@ class VesselManagementControllerTest {
                 .body(requestDto)
                 .post("api/v1/vessels")
                 .then()
-                .statusCode(200);
+                .statusCode(201);
     }
 
     @Test
@@ -168,20 +170,20 @@ class VesselManagementControllerTest {
     void shouldSaveNewVesselAndUpdateIt() {
         Vessel vessel = vesselRepository.save(new Vessel("Military", "Green"));
 
-        Vessel updatedVessel = new Vessel(vessel.getId(), "Cruise", "Blue");
+        UpdateVesselRequestDto updatedVessel = new UpdateVesselRequestDto("Cruise", "Blue");
         given()
                 .contentType(ContentType.JSON)
                 .body(updatedVessel)
                 .when()
-                .put("api/v1/vessels")
+                .put("api/v1/vessels/" + vessel.getId())
                 .then()
                 .statusCode(200);
 
         Vessel retrievedVessel = vesselRepository.findById(vessel.getId())
                 .orElseThrow(() -> new AssertionError("Vessel not found"));
 
-        Assertions.assertEquals(retrievedVessel.getType(),"Cruise","Vessel type should be updated to 'Cruise'");
-        Assertions.assertEquals(retrievedVessel.getColor(), "Blue", "Vessel color should be updated to 'Blue'");
+        Assertions.assertEquals("Cruise", retrievedVessel.getType(),"Vessel type should be updated to 'Cruise'");
+        Assertions.assertEquals("Blue", retrievedVessel.getColor(), "Vessel color should be updated to 'Blue'");
     }
 
     @Test
@@ -189,14 +191,40 @@ class VesselManagementControllerTest {
     void shouldSaveNewVesselAndFailUpdatingIt() {
         Vessel vessel = vesselRepository.save(new Vessel("Military", "Green"));
 
-        Vessel updatedVessel = new Vessel(vessel.getId(), "israeli", "Blue");
+        UpdateVesselRequestDto updatedVessel = new UpdateVesselRequestDto("israeli", "Blue");
         given()
                 .contentType(ContentType.JSON)
                 .body(updatedVessel)
                 .when()
-                .put("api/v1/vessels")
+                .put("api/v1/vessels/" + vessel.getId())
                 .then()
                 .statusCode(400);
+    }
+
+    @Test
+    @DisplayName("Should save new vessel in database and successfully delete it")
+    void shouldSaveNewVesselAndDeleteIt() {
+        Vessel vessel = vesselRepository.save(new Vessel("Military", "Green"));
+
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .delete("api/v1/vessels/" + vessel.getId())
+                .then()
+                .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("Should save new vessel in database and fail to delete it because of invalid id")
+    void shouldSaveNewVesselAndFailDeletingIt() {
+        Vessel vessel = vesselRepository.save(new Vessel("Military", "Green"));
+
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .delete("api/v1/vessels/" + UUID.randomUUID()/* random "invalid" id */)
+                .then()
+                .statusCode(404);
     }
 
 }
