@@ -1,4 +1,4 @@
-package dem.llc.vesselmanagementservice.model;
+package dem.llc.vesselmanagementservice.util;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,6 @@
 package dem.llc.vesselmanagementservice.dto;
 
-import dem.llc.vesselmanagementservice.model.VesselType;
+import dem.llc.vesselmanagementservice.util.VesselType;
 
 public record UpdateVesselRequestDto(
         String type,

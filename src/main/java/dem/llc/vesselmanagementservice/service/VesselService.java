@@ -4,7 +4,6 @@ import dem.llc.vesselmanagementservice.dto.CreateVesselRequestDto;
 import dem.llc.vesselmanagementservice.dto.UpdateVesselRequestDto;
 import dem.llc.vesselmanagementservice.dto.VesselDto;
 import dem.llc.vesselmanagementservice.model.Vessel;
-import dem.llc.vesselmanagementservice.model.VesselType;
 import dem.llc.vesselmanagementservice.repository.VesselRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

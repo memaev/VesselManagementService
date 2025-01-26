@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Transactional
 public interface VesselRepository extends JpaRepository<Vessel, UUID> {
     List<Vessel> findAllByColor(String color);
 }
